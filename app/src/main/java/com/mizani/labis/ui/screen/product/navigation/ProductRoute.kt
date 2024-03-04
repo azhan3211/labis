@@ -1,4 +1,4 @@
-package com.mizani.labis.navigation.product
+package com.mizani.labis.ui.screen.product.navigation
 
 sealed class ProductRoute(val route: String) {
 

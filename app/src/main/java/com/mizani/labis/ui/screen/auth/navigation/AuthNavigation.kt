@@ -1,4 +1,4 @@
-package com.mizani.labis.navigation.auth
+package com.mizani.labis.ui.screen.auth.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost

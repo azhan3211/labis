@@ -1,9 +1,9 @@
-package com.mizani.labis.data.dao
+package com.mizani.labis.data.local
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.mizani.labis.data.entity.ProductEntity
+import com.mizani.labis.domain.model.entity.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

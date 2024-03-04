@@ -1,9 +1,9 @@
-package com.mizani.labis.data.entity
+package com.mizani.labis.domain.model.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mizani.labis.data.dto.store.StoreDto
+import com.mizani.labis.domain.model.dto.StoreDto
 
 @Entity(tableName = "labis_store")
 data class StoreEntity(

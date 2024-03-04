@@ -1,13 +1,11 @@
 package com.mizani.labis.data.repository
 
-import com.mizani.labis.data.dao.StoreDao
-import com.mizani.labis.data.dto.store.StoreDto
-import com.mizani.labis.data.dto.store.toStoreEntity
-import com.mizani.labis.data.entity.toStoreDto
+import com.mizani.labis.data.local.StoreDao
+import com.mizani.labis.domain.model.dto.StoreDto
+import com.mizani.labis.domain.model.dto.toStoreEntity
+import com.mizani.labis.domain.model.entity.toStoreDto
 import com.mizani.labis.domain.repository.StoreRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 

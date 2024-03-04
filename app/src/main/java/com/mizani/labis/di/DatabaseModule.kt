@@ -2,10 +2,10 @@ package com.mizani.labis.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mizani.labis.data.LabisDatabaseRoom
-import com.mizani.labis.data.dao.ProductCategoryDao
-import com.mizani.labis.data.dao.ProductDao
-import com.mizani.labis.data.dao.StoreDao
+import com.mizani.labis.data.local.LabisDatabaseRoom
+import com.mizani.labis.data.local.ProductCategoryDao
+import com.mizani.labis.data.local.ProductDao
+import com.mizani.labis.data.local.StoreDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.mizani.labis.navigation.home
+package com.mizani.labis.ui.screen.home.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mizani.labis.data.dto.store.StoreDto
+import com.mizani.labis.domain.model.dto.StoreDto
 import com.mizani.labis.ui.screen.home.MenuScreen
 import com.mizani.labis.ui.screen.home.HomeViewModel
 import com.mizani.labis.ui.screen.home.ProfileScreen

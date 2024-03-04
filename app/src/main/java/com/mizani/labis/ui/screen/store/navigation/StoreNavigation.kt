@@ -1,4 +1,4 @@
-package com.mizani.labis.navigation.store
+package com.mizani.labis.ui.screen.store.navigation
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable

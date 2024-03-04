@@ -1,6 +1,6 @@
 package com.mizani.labis.domain.repository
 
-import com.mizani.labis.data.dto.store.StoreDto
+import com.mizani.labis.domain.model.dto.StoreDto
 import kotlinx.coroutines.flow.Flow
 
 interface StoreRepository {

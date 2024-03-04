@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.mizani.labis.navigation.home.HomeNavigation
-import com.mizani.labis.navigation.home.HomeRoute
+import com.mizani.labis.ui.screen.home.navigation.HomeNavigation
+import com.mizani.labis.ui.screen.home.navigation.HomeRoute
 
 @Composable
 fun HomeScreen(

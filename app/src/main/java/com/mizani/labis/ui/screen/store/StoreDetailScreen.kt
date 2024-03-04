@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -33,9 +31,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColorInt
 import com.mizani.labis.R
-import com.mizani.labis.data.dto.store.StoreDto
+import com.mizani.labis.domain.model.dto.StoreDto
 import com.mizani.labis.ui.component.ButtonComponent
 import com.mizani.labis.ui.component.TopBarComponent
 import com.mizani.labis.ui.component.textfield.OutlinedTextFieldComponent

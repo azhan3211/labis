@@ -31,8 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mizani.labis.R
-import com.mizani.labis.data.dto.store.ProductDto
-import com.mizani.labis.ui.component.menu.MenuItemComponent
+import com.mizani.labis.domain.model.dto.ProductDto
 import com.mizani.labis.ui.component.SearchComponent
 import com.mizani.labis.ui.component.TopBarComponent
 import com.mizani.labis.ui.component.menu.MenuItemEditComponent

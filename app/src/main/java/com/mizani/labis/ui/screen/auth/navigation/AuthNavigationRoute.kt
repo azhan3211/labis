@@ -1,4 +1,4 @@
-package com.mizani.labis.navigation.auth
+package com.mizani.labis.ui.screen.auth.navigation
 
 sealed class AuthNavigationRoute(val route: String) {
 

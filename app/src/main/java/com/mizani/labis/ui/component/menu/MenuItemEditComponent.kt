@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.mizani.labis.R
-import com.mizani.labis.data.dto.store.ProductDto
+import com.mizani.labis.domain.model.dto.ProductDto
 import com.mizani.labis.utils.StringUtils.toCurrency
 import com.mizani.labis.utils.StringUtils.toDecimalFormat
 

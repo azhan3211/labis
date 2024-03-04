@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
-import com.mizani.labis.navigation.auth.AuthNavigationRoute
+import com.mizani.labis.ui.screen.auth.navigation.AuthNavigationRoute
 import com.mizani.labis.ui.component.TextFieldComponent
 import com.mizani.labis.ui.component.TextFieldPasswordComponent
 

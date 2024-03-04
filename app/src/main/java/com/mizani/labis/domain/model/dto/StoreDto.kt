@@ -1,6 +1,6 @@
-package com.mizani.labis.data.dto.store
+package com.mizani.labis.domain.model.dto
 
-import com.mizani.labis.data.entity.StoreEntity
+import com.mizani.labis.domain.model.entity.StoreEntity
 
 data class StoreDto(
     val id: Long = 0,

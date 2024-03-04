@@ -1,7 +1,7 @@
 package com.mizani.labis.domain.repository
 
-import com.mizani.labis.data.dto.store.ProductCategoryDto
-import com.mizani.labis.data.dto.store.ProductDto
+import com.mizani.labis.domain.model.dto.ProductCategoryDto
+import com.mizani.labis.domain.model.dto.ProductDto
 import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {

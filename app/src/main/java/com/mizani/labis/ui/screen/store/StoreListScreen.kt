@@ -32,7 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mizani.labis.R
-import com.mizani.labis.data.dto.store.StoreDto
+import com.mizani.labis.domain.model.dto.StoreDto
 import com.mizani.labis.ui.component.SearchComponent
 import com.mizani.labis.ui.component.StoreItemComponent
 import com.mizani.labis.ui.component.TopBarComponent

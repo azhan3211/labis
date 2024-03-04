@@ -6,18 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mizani.labis.data.dao.ProductCategoryDao
-import com.mizani.labis.data.dto.store.ProductCategoryDto
-import com.mizani.labis.data.dto.store.ProductDto
-import com.mizani.labis.data.dto.store.StoreDto
-import com.mizani.labis.data.entity.ProductCategoryEntity
+import com.mizani.labis.domain.model.dto.ProductCategoryDto
+import com.mizani.labis.domain.model.dto.ProductDto
+import com.mizani.labis.domain.model.dto.StoreDto
 import com.mizani.labis.domain.repository.PreferenceRepository
 import com.mizani.labis.domain.repository.ProductRepository
 import com.mizani.labis.domain.repository.StoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import com.mizani.labis.navigation.product.ProductNavigation
+import com.mizani.labis.ui.screen.product.navigation.ProductNavigation
 import com.mizani.labis.setBaseContentView
 import dagger.hilt.android.AndroidEntryPoint
 

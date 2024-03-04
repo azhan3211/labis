@@ -6,11 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mizani.labis.data.dto.store.ProductCategoryDto
-import com.mizani.labis.data.dto.store.ProductDto
+import com.mizani.labis.domain.model.dto.ProductCategoryDto
+import com.mizani.labis.domain.model.dto.ProductDto
 import com.mizani.labis.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

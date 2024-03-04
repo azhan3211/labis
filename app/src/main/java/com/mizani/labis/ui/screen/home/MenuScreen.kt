@@ -32,9 +32,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mizani.labis.data.dto.store.ProductCategoryDto
-import com.mizani.labis.data.dto.store.ProductDto
-import com.mizani.labis.data.dto.store.StoreDto
+import com.mizani.labis.domain.model.dto.ProductCategoryDto
+import com.mizani.labis.domain.model.dto.ProductDto
+import com.mizani.labis.domain.model.dto.StoreDto
 import com.mizani.labis.ui.component.ChipItemComponent
 import com.mizani.labis.ui.component.menu.MenuItemComponent
 import com.mizani.labis.ui.component.OrderTotalPriceComponent

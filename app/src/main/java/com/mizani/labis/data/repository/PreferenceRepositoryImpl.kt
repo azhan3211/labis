@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class PreferenceRepositoryImpl @Inject constructor(
     private val prefUtils: PrefUtils
-) : PreferenceRepository  {
+) : PreferenceRepository {
 
     override fun setSelectedStoreId(id: Long) {
         prefUtils.setLong(STORE_PREF, STORE_ID, id)

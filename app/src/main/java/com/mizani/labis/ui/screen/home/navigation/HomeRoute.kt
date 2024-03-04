@@ -1,4 +1,4 @@
-package com.mizani.labis.navigation.home
+package com.mizani.labis.ui.screen.home.navigation
 
 sealed class HomeRoute(val route: String) {
 
