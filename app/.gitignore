@@ -1,0 +1,59 @@
+# Built application files
+*.apk
+*.ap_
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Gradle files
+.gradle/
+build/
+
+# Android Studio
+/.idea
+*.iml
+.gradle
+/captures
+
+# NDK
+obj/
+jniLibs/
+
+# Crashlytics
+crashlytics.properties
+
+# Keystore files
+*.jks
+
+# External native build folder generated in Android Studio 2.2 and later
+.externalNativeBuild
+
+# Windows thumbnail db
+Thumbs.db
+
+# macOS folder attributes
+.DS_Store
+
+# Android Profiler
+*.hprof
+
+# ProGuard
+proguard/
+
+# Android Studio navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
