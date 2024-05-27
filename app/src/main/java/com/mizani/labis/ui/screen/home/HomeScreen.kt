@@ -24,14 +24,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.mizani.labis.domain.model.dto.OrderDto
+import com.mizani.labis.domain.model.dto.OrdersDto
 import com.mizani.labis.ui.screen.home.navigation.HomeNavigation
 import com.mizani.labis.ui.screen.home.navigation.HomeRoute
+import java.util.Date
 
 @Composable
 fun HomeScreen(
     storeChanged: Boolean = false,
     resetStoreChanged: (() -> Unit) = {},
-    navigateToStoreActivity: (() -> Unit)? = null
+    navigateToStoreActivity: (() -> Unit)? = null,
+    navigateToOrderActivity: ((List<OrdersDto>) -> Unit)? = null,
+    navigateToReportActivity: (Date, Date, String) -> Unit = { _, _, _ -> }
 ) {
 
     val label = arrayListOf("Home", "Laporan", "Akun")
@@ -48,6 +53,27 @@ fun HomeScreen(
     val navController = rememberNavController()
 
     Scaffold(
+        content = {
+            Box(
+                Modifier
+                    .padding(bottom = 58.dp)
+                    .fillMaxSize()
+                    .padding(it.calculateTopPadding())
+            ) {
+                HomeNavigation(
+                    storeChanged = storeChanged,
+                    navController = navController,
+                    resetStoreChanged = resetStoreChanged,
+                    navigateToStoreActivity = navigateToStoreActivity,
+                    navigateToOrderActivity = { orders ->
+                        navigateToOrderActivity?.invoke(orders)
+                    },
+                    navigateToReportActivity = { startDate, endDate, category ->
+                        navigateToReportActivity.invoke(startDate, endDate, category)
+                    }
+                )
+            }
+        },
         bottomBar = {
             BottomNavigation(
                 backgroundColor = Color.White
@@ -71,20 +97,7 @@ fun HomeScreen(
                 }
             }
         }
-    ) {
-        Box(
-            Modifier
-                .padding(bottom = 58.dp)
-                .fillMaxSize()
-        ) {
-            HomeNavigation(
-                storeChanged = storeChanged,
-                navController = navController,
-                resetStoreChanged = resetStoreChanged,
-                navigateToStoreActivity = navigateToStoreActivity
-            )
-        }
-    }
+    )
 }
 
 private fun navigateTo(

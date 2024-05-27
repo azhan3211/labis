@@ -41,4 +41,22 @@
     <string name="stock">Jumlah (stok)</string>
     <string name="upload_image">Upload Gambar</string>
     <string name="stock_number">Jumlah (stok): %s</string>
+    <string name="no_store_selected">Tidak Ada Toko Yang Dipilih!</string>
+    <string name="select_store">Pilih Toko</string>
+    <string name="total_price">Total Harga</string>
+    <string name="orders">Pesanan</string>
+    <string name="total_order">Total Pesanan</string>
+    <string name="paid">Bayar</string>
+    <string name="email">Email</string>
+    <string name="retry_password">Ulangi Password</string>
+    <string name="money_paid">Uang Dibayarkan</string>
+    <string name="money_return">Uang Kembali</string>
+    <string name="pay_later">Hutang</string>
+    <string name="name">Nama</string>
+    <string name="paid_name_error">Nama harus diisi!</string>
+    <string name="report_order_list">Daftar Laporan Pesanan</string>
+    <string name="see_sold_product">Lihat Barang Terjual</string>
+    <string name="product_edit">Ubah Product</string>
+    <string name="paid_order_title">Bayar Pesanan</string>
+    <string name="paid_order_message">Apakah anda yakin ingin mengubah status bayar di pesanan ini?</string>
 </resources>

@@ -38,7 +38,7 @@ fun OtpScreen(
     val otpCount = 6
 
     Box(
-        modifier = Modifier.background(color = Color("#2F58CD".toColorInt()))
+        modifier = Modifier.background(color = MaterialTheme.colors.primary)
     ) {
         Box(
             modifier = Modifier
@@ -150,7 +150,7 @@ fun OtpScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(height = 48.dp),
-                        colors = ButtonDefaults.buttonColors(Color("#2F58CD".toColorInt()))
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary)
                     ) {
                         Text(
                             text = "Verifikasi",

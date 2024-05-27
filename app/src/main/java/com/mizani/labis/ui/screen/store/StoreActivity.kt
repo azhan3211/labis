@@ -1,5 +1,7 @@
 package com.mizani.labis.ui.screen.store
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.mizani.labis.ui.screen.store.navigation.StoreNavigation
@@ -27,6 +29,19 @@ class StoreActivity : ComponentActivity() {
                     )
                 }
             )
+        }
+    }
+
+    companion object {
+
+        fun startActivity(context: Context) {
+            Intent(context, StoreActivity::class.java).apply {
+                context.startActivity(this)
+            }
+        }
+
+        fun getIntent(contenxt: Context): Intent {
+            return Intent(contenxt, StoreActivity::class.java)
         }
     }
 }

@@ -1,9 +1,13 @@
 package com.mizani.labis.di
 
+import com.mizani.labis.data.repository.OrderRepositoryImpl
 import com.mizani.labis.data.repository.PreferenceRepositoryImpl
+import com.mizani.labis.data.repository.ProductCategoryRepositoryImpl
 import com.mizani.labis.data.repository.ProductRepositoryImpl
 import com.mizani.labis.data.repository.StoreRepositoryImpl
+import com.mizani.labis.domain.repository.OrderRepository
 import com.mizani.labis.domain.repository.PreferenceRepository
+import com.mizani.labis.domain.repository.ProductCategoryRepository
 import com.mizani.labis.domain.repository.ProductRepository
 import com.mizani.labis.domain.repository.StoreRepository
 import dagger.Binds
@@ -30,5 +34,14 @@ interface RepositoryModule {
         preferenceRepositoryImpl: PreferenceRepositoryImpl
     ): PreferenceRepository
 
+    @Binds
+    fun provideOrderRepository(
+        orderRepositoryImpl: OrderRepositoryImpl
+    ): OrderRepository
+
+    @Binds
+    fun provideProductCategoryRepository(
+        productCategoryRepositoryImpl: ProductCategoryRepositoryImpl
+    ): ProductCategoryRepository
 
 }

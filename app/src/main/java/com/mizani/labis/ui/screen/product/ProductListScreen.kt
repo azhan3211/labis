@@ -42,6 +42,7 @@ fun ProductListScreen(
     products: List<ProductDto> = arrayListOf(),
     onDeleteListener: (ProductDto) -> Unit = {},
     onAddProductListener: (() -> Unit)? = null,
+    onProductClicked: (ProductDto) -> Unit = {},
     backListener: (() -> Unit)? = null
 ) {
 
@@ -71,7 +72,10 @@ fun ProductListScreen(
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         SearchComponent(
-                            value = searchKeyword,
+                            value = searchKeyword.value,
+                            onChange = {
+                                searchKeyword.value = it
+                            },
                             hint = stringResource(id = R.string.search_product)
                         )
                     }
@@ -85,7 +89,10 @@ fun ProductListScreen(
                             ) {
                                 MenuItemEditComponent(
                                     productDto = item,
-                                    onDeleteListener = onDeleteListener
+                                    onDeleteListener = onDeleteListener,
+                                    onClick = {
+                                        onProductClicked.invoke(it)
+                                    }
                                 )
                             }
                             Spacer(

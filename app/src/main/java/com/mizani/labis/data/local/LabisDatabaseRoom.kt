@@ -2,9 +2,8 @@ package com.mizani.labis.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.mizani.labis.data.local.ProductCategoryDao
-import com.mizani.labis.data.local.ProductDao
-import com.mizani.labis.data.local.StoreDao
+import androidx.room.TypeConverters
+import com.mizani.labis.domain.model.entity.OrderEntity
 import com.mizani.labis.domain.model.entity.ProductCategoryEntity
 import com.mizani.labis.domain.model.entity.ProductEntity
 import com.mizani.labis.domain.model.entity.StoreEntity
@@ -13,15 +12,17 @@ import com.mizani.labis.domain.model.entity.StoreEntity
     entities = [
         StoreEntity::class,
         ProductEntity::class,
-        ProductCategoryEntity::class
+        ProductCategoryEntity::class,
+        OrderEntity::class
     ],
-    version = 1,
+    version = 4,
     exportSchema = false
 )
-//@TypeConverters(DataConverters::class)
+@TypeConverters(RoomConverter::class)
 abstract class LabisDatabaseRoom : RoomDatabase() {
 
     abstract fun store(): StoreDao
     abstract fun product(): ProductDao
     abstract fun productCategory(): ProductCategoryDao
+    abstract fun orders(): OrderDao
 }

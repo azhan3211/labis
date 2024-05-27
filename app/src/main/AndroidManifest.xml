@@ -39,6 +39,8 @@
         <activity android:name=".ui.screen.home.MainActivity" />
         <activity android:name=".ui.screen.store.StoreActivity" />
         <activity android:name=".ui.screen.product.ProductActivity" />
+        <activity android:name=".ui.screen.order.OrderActivity"/>
+        <activity android:name=".ui.screen.report.ReportActivity"/>
     </application>
 
 </manifest>

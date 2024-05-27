@@ -9,6 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.mizani.labis.setBaseContentView
+import com.mizani.labis.ui.screen.order.OrderActivity
+import com.mizani.labis.ui.screen.report.ReportActivity
 import com.mizani.labis.ui.screen.store.StoreActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,11 +40,14 @@ class MainActivity : ComponentActivity() {
                 },
                 navigateToStoreActivity = {
                     launcher.launch(
-                        Intent(
-                            this@MainActivity,
-                            StoreActivity::class.java
-                        )
+                        StoreActivity.getIntent(this@MainActivity)
                     )
+                },
+                navigateToOrderActivity = {
+                    OrderActivity.startActivity(this, it.toTypedArray())
+                },
+                navigateToReportActivity = { startDate, endDate, category ->
+                    ReportActivity.startActivity(this, category, startDate, endDate)
                 }
             )
         }

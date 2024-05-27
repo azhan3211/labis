@@ -65,7 +65,10 @@ fun StoreListScreen(
                         modifier = Modifier.padding(horizontal = 20.dp)
                     ) {
                         SearchComponent(
-                            value = searchKeyword,
+                            value = searchKeyword.value,
+                            onChange = {
+                                searchKeyword.value = it
+                            }
                         )
                     }
                     Box(modifier = Modifier.fillMaxSize()) {

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import androidx.core.graphics.toColorInt
 fun ButtonComponent(
     label: String,
     modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colors.primary,
     callback: (() -> Unit) = {}
 ) {
     Button(
@@ -24,7 +26,7 @@ fun ButtonComponent(
         modifier = modifier
             .fillMaxWidth()
             .height(height = 48.dp),
-        colors = ButtonDefaults.buttonColors(Color("#2F58CD".toColorInt()))
+        colors = ButtonDefaults.buttonColors(color)
     ) {
         Text(
             text = label.uppercase(),

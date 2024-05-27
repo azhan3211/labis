@@ -26,9 +26,10 @@ import androidx.core.graphics.toColorInt
 
 @Composable
 fun TextFieldComponent(
-    text: MutableState<String>,
+    text: String,
     label: String,
-    imeAction: ImeAction = ImeAction.Next
+    imeAction: ImeAction = ImeAction.Next,
+    onChange: (String) -> Unit
 ) {
     Card(
         backgroundColor = Color("#F8F6F4".toColorInt()),
@@ -36,9 +37,9 @@ fun TextFieldComponent(
         modifier = Modifier.shadow(2.dp, RoundedCornerShape(8.dp))
     ) {
         BasicTextField(
-            value = text.value,
+            value = text,
             onValueChange = {
-                text.value = it
+                onChange.invoke(it)
             },
             decorationBox = { textField ->
                 Card(
@@ -58,7 +59,7 @@ fun TextFieldComponent(
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.CenterStart
                         ) {
-                            if (text.value.isEmpty()) {
+                            if (text.isEmpty()) {
                                 Text(
                                     text = label,
                                     fontSize = 18.sp,
@@ -85,6 +86,11 @@ fun TextFieldComponent(
 @Preview
 @Composable
 private fun Preview() {
-    val test = remember { mutableStateOf("Test") }
-    TextFieldComponent(text = test, label = "Test")
+    TextFieldComponent(
+        text = "test",
+        label = "Test",
+        onChange = {
+
+        }
+    )
 }

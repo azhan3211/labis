@@ -20,13 +20,15 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.mizani.labis.R
 import com.mizani.labis.domain.model.dto.ProductDto
+import com.mizani.labis.ui.component.order.OrderItemCountComponent
 import com.mizani.labis.utils.StringUtils.toCurrency
 
 @Composable
 fun MenuItemComponent(
     isCountShown: Boolean = true,
     productDto: ProductDto,
-    callback: (Int) -> Unit = {}
+    onInc: () -> Unit = {},
+    onDec: () -> Unit = {}
 ) {
 
     Card(
@@ -78,8 +80,9 @@ fun MenuItemComponent(
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     if (isCountShown) {
-                        MenuItemCount(
-                            onCountChange = callback
+                        MenuItemCountComponent(
+                            onInc = onInc,
+                            onDec = onDec
                         )
                     }
                 }

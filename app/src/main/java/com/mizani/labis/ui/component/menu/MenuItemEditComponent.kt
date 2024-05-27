@@ -39,6 +39,7 @@ import com.mizani.labis.utils.StringUtils.toDecimalFormat
 @Composable
 fun MenuItemEditComponent(
     productDto: ProductDto,
+    onClick: (ProductDto) -> Unit = {},
     onDeleteListener: (ProductDto) -> Unit = {}
 ) {
 
@@ -48,6 +49,9 @@ fun MenuItemEditComponent(
             .fillMaxWidth()
             .height(120.dp)
             .shadow(4.dp, RoundedCornerShape(8.dp))
+            .clickable {
+                onClick.invoke(productDto)
+            }
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 14.dp),

@@ -14,8 +14,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
-    private val productDao: ProductDao,
-    private val productCategoryDao: ProductCategoryDao
+    private val productDao: ProductDao
 ) : ProductRepository {
     override suspend fun getAll(storeId: Long): Flow<List<ProductDto>> {
         return flow {
@@ -39,29 +38,5 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun delete(id: Long) {
         productDao.delete(id)
-    }
-
-    override suspend fun getProductCategoryAll(storeId: Long): Flow<List<ProductCategoryDto>> {
-        return flow {
-            productCategoryDao.getAll(storeId).collect {
-                emit(
-                    it.map { productCategoryEntity ->
-                        productCategoryEntity.toProductCategoryDto()
-                    }
-                )
-            }
-        }
-    }
-
-    override suspend fun saveProductCategory(productCategoryDto: ProductCategoryDto): Long {
-        return productCategoryDao.insert(productCategoryEntity = productCategoryDto.toProductCategoryEntity())
-    }
-
-    override suspend fun deleteProductCategory(id: Long) {
-        productCategoryDao.delete(id)
-    }
-
-    override suspend fun getProductCategory(id: Long): ProductCategoryDto {
-        return productCategoryDao.get(id).toProductCategoryDto()
     }
 }

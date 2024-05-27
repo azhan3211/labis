@@ -26,9 +26,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchComponent(
-    value: MutableState<String>,
+    modifier: Modifier = Modifier,
+    value: String,
     hint: String = "Cari...",
-    modifier: Modifier = Modifier
+    onChange: (String) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(40.dp),
@@ -37,9 +38,9 @@ fun SearchComponent(
             .then(modifier)
     ) {
         BasicTextField(
-            value = value.value,
+            value = value,
             onValueChange = {
-                value.value = it
+                onChange.invoke(it)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -60,7 +61,7 @@ fun SearchComponent(
                             .weight(1f),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if (value.value.isEmpty()) {
+                        if (value.isEmpty()) {
                             Text(
                                 text = hint,
                                 color = Color.Gray
@@ -89,7 +90,8 @@ fun SearchComponent(
 @Preview
 @Composable
 private fun Preview() {
-    SearchComponent(rememberSaveable {
-        mutableStateOf("test")
-    })
+    SearchComponent(
+        value = "",
+        onChange = {}
+    )
 }

@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mizani.labis.R
 import com.mizani.labis.ui.screen.ProductListScreen
 import com.mizani.labis.ui.screen.product.ProductCreateScreen
+import com.mizani.labis.ui.screen.product.ProductEditScreen
 import com.mizani.labis.ui.screen.product.ProductViewModel
 import com.mizani.labis.utils.DialogUtils
 
@@ -43,6 +44,10 @@ fun ProductNavigation(
                         }
                     )
                 },
+                onProductClicked = {
+                    productViewModel.setSelectProduct(it)
+                    navController.navigate(ProductRoute.ProductEditScreen.route)
+                },
                 backListener = backListener
             )
         }
@@ -63,6 +68,26 @@ fun ProductNavigation(
                 },
                 backListener = {
                     navController.popBackStack()
+                }
+            )
+        }
+        composable(route = ProductRoute.ProductEditScreen.route) {
+            ProductEditScreen(
+                productDto = productViewModel.selectedProduct.value,
+                categories = productViewModel.productCategories,
+                onSaveProduct = { product, productCategory ->
+                    if (productCategory.id == 0L) {
+                        productViewModel.saveCategoryAndProduct(
+                            productCategory,
+                            product
+                        )
+                    } else {
+                        productViewModel.saveProduct(product)
+                    }
+                    navController.popBackStack()
+                },
+                onBackListener = {
+                    backListener?.invoke()
                 }
             )
         }

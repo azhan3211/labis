@@ -27,3 +27,13 @@ fun ProductDto.toProductEntity(): ProductEntity {
 //        image = image
     )
 }
+
+fun ProductDto.toOrderDto(): OrdersDto {
+    return OrdersDto(
+        id = id,
+        name = name,
+        price = priceToSell,
+        capital = capital,
+        count = 0
+    )
+}

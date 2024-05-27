@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mizani.labis.domain.model.dto.ProductCategoryDto
 import com.mizani.labis.domain.model.dto.ProductDto
+import com.mizani.labis.domain.repository.ProductCategoryRepository
 import com.mizani.labis.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,13 +16,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val productCategoryRepository: ProductCategoryRepository
 ) : ViewModel() {
 
     val products: SnapshotStateList<ProductDto> get() = _products
     private val _products = mutableStateListOf<ProductDto>()
-    val selectedProduct: State<ProductDto?> get() = _selectedProduct
-    private val _selectedProduct = mutableStateOf<ProductDto?>(null)
+
+    val selectedProduct: State<ProductDto> get() = _selectedProduct
+    private val _selectedProduct = mutableStateOf(ProductDto())
     val productCategories: SnapshotStateList<ProductCategoryDto> get() = _productCategories
     private val _productCategories = mutableStateListOf<ProductCategoryDto>()
 
@@ -46,15 +49,9 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    fun getProduct(productDto: ProductDto) {
-        viewModelScope.launch {
-            _selectedProduct.value = productRepository.get(productDto.id)
-        }
-    }
-
     fun getProductCategory(storeId: Long) {
         viewModelScope.launch {
-            productRepository.getProductCategoryAll(storeId).collect {
+            productCategoryRepository.getCategories(storeId).collect {
                 _productCategories.clear()
                 _productCategories.addAll(it)
             }
@@ -66,11 +63,15 @@ class ProductViewModel @Inject constructor(
         productDto: ProductDto
     ) {
         viewModelScope.launch {
-            val categoryId = productRepository.saveProductCategory(productCategoryDto)
+            val categoryId = productCategoryRepository.save(productCategoryDto)
             val product = productDto.copy(
                 categoryId = categoryId
             )
             saveProduct(productDto = product)
         }
+    }
+
+    fun setSelectProduct(productDto: ProductDto) {
+        _selectedProduct.value = productDto
     }
 }

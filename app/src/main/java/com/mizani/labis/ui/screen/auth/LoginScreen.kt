@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +33,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
 import com.mizani.labis.R
 import com.mizani.labis.ui.component.TextFieldComponent
 import com.mizani.labis.ui.component.TextFieldPasswordComponent
@@ -49,7 +49,7 @@ fun LoginScreen(
     var password = rememberSaveable { mutableStateOf("") }
 
     Box(
-        modifier = Modifier.background(color = Color("#2F58CD".toColorInt()))
+        modifier = Modifier.background(color = MaterialTheme.colors.primary)
     ) {
         Column(
             modifier = Modifier
@@ -91,7 +91,13 @@ fun LoginScreen(
                         .fillMaxWidth()
                         .height(height = 50.dp)
                 )
-                TextFieldComponent(text = email, "Email")
+                TextFieldComponent(
+                    text = email.value,
+                    label = stringResource(id = R.string.email),
+                    onChange = {
+                        email.value = it
+                    }
+                )
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -110,7 +116,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(height = 48.dp),
-                    colors = ButtonDefaults.buttonColors(Color("#2F58CD".toColorInt()))
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary)
                 ) {
                     Text(
                         text = "Login",
@@ -137,7 +143,7 @@ fun LoginScreen(
                     )
                     Text(
                         text = "Daftar Disini",
-                        color = Color("#2F58CD".toColorInt()),
+                        color = MaterialTheme.colors.primary,
                         fontWeight = FontWeight.W700,
                         modifier = Modifier.clickable {
                             navigateToRegister?.invoke()
