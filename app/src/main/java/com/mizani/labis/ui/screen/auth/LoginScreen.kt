@@ -1,5 +1,6 @@
 package com.mizani.labis.ui.screen.auth
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,12 +21,14 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -34,19 +37,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mizani.labis.R
-import com.mizani.labis.ui.component.TextFieldComponent
+import com.mizani.labis.ui.component.textfield.TextFieldComponent
 import com.mizani.labis.ui.component.TextFieldPasswordComponent
 import com.mizani.labis.ui.theme.LabisTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
-    onLoginClicked: (() -> Unit)? = null,
+    loginError: String = "",
+    onLoginClicked: ((email: String, password: String) -> Unit) = { _, _ -> },
     navigateToRegister: (() -> Unit)? = null
 ) {
 
-    var email = rememberSaveable { mutableStateOf("") }
-    var password = rememberSaveable { mutableStateOf("") }
+    val email = rememberSaveable { mutableStateOf("") }
+    val password = rememberSaveable { mutableStateOf("") }
+    val context = LocalContext.current
+
+    LaunchedEffect(loginError) {
+        if (loginError.isNotEmpty()) {
+            Toast.makeText(context, loginError, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Box(
         modifier = Modifier.background(color = MaterialTheme.colors.primary)
@@ -80,7 +91,7 @@ fun LoginScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Login",
+                    text = stringResource(id = R.string.login),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     fontSize = 28.sp,
@@ -111,7 +122,10 @@ fun LoginScreen(
                 )
                 Button(
                     onClick = {
-                        onLoginClicked?.invoke()
+                        onLoginClicked.invoke(
+                            email.value,
+                            password.value
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -119,7 +133,7 @@ fun LoginScreen(
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary)
                 ) {
                     Text(
-                        text = "Login",
+                        text = stringResource(id = R.string.login),
                         color = Color.White
                     )
                 }
@@ -134,7 +148,7 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Belum punya akun?",
+                        text = stringResource(id = R.string.havent_have_account),
                     )
                     Spacer(
                         modifier = Modifier
@@ -142,7 +156,7 @@ fun LoginScreen(
                             .height(1.dp)
                     )
                     Text(
-                        text = "Daftar Disini",
+                        text = stringResource(id = R.string.register_here),
                         color = MaterialTheme.colors.primary,
                         fontWeight = FontWeight.W700,
                         modifier = Modifier.clickable {

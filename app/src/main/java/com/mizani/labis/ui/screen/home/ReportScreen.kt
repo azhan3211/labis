@@ -21,6 +21,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -55,6 +56,9 @@ import java.util.Date
 fun ReportScreen(
     totalSalePaid: Int = 0,
     totalSaleUnpaid: Int = 0,
+    profit: Int = 0,
+    capital: Int = 0,
+    onAvailableCapitalClicked: () -> Unit,
     onReportClicked: (String) -> Unit = {},
     onDateChange: (Date, Date) -> Unit = { _, _ -> }
 ) {
@@ -63,10 +67,10 @@ fun ReportScreen(
 
     Column(
         modifier = Modifier
-            .background(Color("#2F58CD".toColorInt()))
+            .background(MaterialTheme.colors.primary)
             .verticalScroll(scroll),
     ) {
-        BenefitLostSection()
+        BenefitLostSection(profit)
         Card(
             modifier = Modifier
                 .fillMaxSize(),
@@ -83,6 +87,8 @@ fun ReportScreen(
                 StatisticSection(
                     totalSalePaid,
                     totalSaleUnpaid,
+                    capital,
+                    onAvailableCapitalClicked = onAvailableCapitalClicked,
                     onClick = {
                         onReportClicked.invoke(it)
                     }
@@ -97,7 +103,9 @@ fun ReportScreen(
 }
 
 @Composable
-private fun BenefitLostSection() {
+private fun BenefitLostSection(
+    profit: Int
+) {
     Box(
         modifier = Modifier.aspectRatio(3f)
     ) {
@@ -111,11 +119,11 @@ private fun BenefitLostSection() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Keuntungan",
+                    text = stringResource(id = R.string.profit),
                     color = Color.White
                 )
                 Text(
-                    text = "Rp.0",
+                    text = profit.toCurrency(),
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.W700
@@ -163,14 +171,14 @@ private fun DateSection(
                                 )
                             }
                         ) {
-                            Text(text = "OK")
+                            Text(text = stringResource(id = R.string.ok))
                         }
                     },
                     dismissButton = {
                         Button(
                             onClick = { isDialogShown.value = false }
                         ) {
-                            Text(text = "Cancel")
+                            Text(text = stringResource(id = R.string.cancel))
                         }
                     }
                 ) {
@@ -216,28 +224,34 @@ private fun DateSection(
     }
 }
 
-@Composable()
+@Composable
 private fun StatisticSection(
     totalSalePaid: Int,
     totalSaleUnpaid: Int,
+    capital: Int,
+    onAvailableCapitalClicked: () -> Unit,
     onClick: (String) -> Unit = {}
 ) {
     Spacer(modifier = Modifier.height(20.dp))
     ReportMenu(
-        "Total Penjualan",
-        totalSalePaid.toCurrency(),
+        stringResource(id = R.string.omzet),
+        totalSalePaid,
         onClick = {
             onClick.invoke(ReportActivity.REPORT_ALL)
         }
     )
     Spacer(modifier = Modifier.height(20.dp))
-    ReportMenu("Sisa Modal", "Rp.0")
+    ReportMenu(
+        stringResource(id = R.string.available_capital),
+        capital,
+        onClick = onAvailableCapitalClicked
+    )
     Spacer(modifier = Modifier.height(20.dp))
-    ReportMenu("Pengeluaran", "Rp.0")
+    ReportMenu(stringResource(id = R.string.capital_expenditure), 0)
     Spacer(modifier = Modifier.height(20.dp))
     ReportMenu(
-        "Hutang",
-        totalSaleUnpaid.toCurrency(),
+        stringResource(id = R.string.debt),
+        totalSaleUnpaid,
         onClick = {
             onClick.invoke(ReportActivity.REPORT_UNPAID)
         }
@@ -280,7 +294,7 @@ private fun ButtonSection(
                 .fillMaxSize()
         ) {
             Text(
-                text = "Lihat Catatan Perbulan",
+                text = stringResource(id = R.string.see_monthly_report),
                 color = Color.White,
                 modifier = Modifier.align(Alignment.Center),
                 textAlign = TextAlign.Center,
@@ -298,7 +312,7 @@ private fun ButtonSection(
 @Composable
 private fun ReportMenu(
     label: String,
-    price: String,
+    price: Int,
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -324,7 +338,7 @@ private fun ReportMenu(
                     .weight(1f)
             )
             Text(
-                text = price,
+                text = price.toCurrency(),
                 fontSize = 18.sp
             )
             Icon(
@@ -338,5 +352,7 @@ private fun ReportMenu(
 @Preview
 @Composable
 private fun PreviewReportScreen() {
-    ReportScreen()
+    ReportScreen(
+        onAvailableCapitalClicked = {}
+    )
 }

@@ -27,10 +27,8 @@ class StoreViewModel @Inject constructor(
 
     fun getStores() {
         viewModelScope.launch {
-            storeRepository.getStores().collect {
-                _stores.clear()
-                _stores.addAll(it)
-            }
+            _stores.clear()
+            _stores.addAll(storeRepository.getStores())
         }
     }
 
@@ -46,9 +44,22 @@ class StoreViewModel @Inject constructor(
         }
     }
 
+    fun updateStore(storeDto: StoreDto) {
+        viewModelScope.launch {
+            storeRepository.updateStore(storeDto)
+        }
+    }
+
+    fun getSelectedStore(id: Int) {
+        viewModelScope.launch {
+            val data = storeRepository.getStore(id)
+            _selectedStore.value = storeRepository.getStore(data.id.toInt())
+        }
+    }
+
     fun getSelected(storeDto: StoreDto) {
         viewModelScope.launch {
-            _selectedStore.value = storeRepository.getStore(storeDto.id)
+            _selectedStore.value = storeRepository.getStore(storeDto.id.toInt())
         }
     }
 

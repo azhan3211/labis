@@ -1,4 +1,4 @@
-package com.mizani.labis.ui.screen.auth
+package com.mizani.labis.ui.screen.splash
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,15 +10,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.mizani.labis.R
-import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    onDismiss: () -> Unit
+    token: String = "",
+    onTokenRequest: () -> Unit = {},
+    onDismiss: () -> Unit = {}
 ) {
-    LaunchedEffect(key1 = true) {
-        delay(3000L)
-        onDismiss.invoke()
+    LaunchedEffect(true) {
+        if (token.isEmpty()) {
+            onTokenRequest.invoke()
+        } else {
+            onDismiss.invoke()
+        }
     }
 
     Column(

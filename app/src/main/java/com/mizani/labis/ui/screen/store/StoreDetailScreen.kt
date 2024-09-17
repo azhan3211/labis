@@ -62,63 +62,63 @@ fun StoreDetailScreen(
             TopBarComponent(title = stringResource(id = R.string.your_store)) {
                 backListener?.invoke()
             }
-        }
-    ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            OutlinedTextFieldComponent(
-                value = storeName.value,
-                label = stringResource(id = R.string.store_name),
-                onChange = {
-                    storeName.value = it
-                }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextFieldComponent(
-                value = storeAddress.value,
-                label = stringResource(id = R.string.address),
-                onChange = {
-                    storeAddress.value = it
-                }
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            ButtonComponent(
-                label = stringResource(id = R.string.change)
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = it.calculateTopPadding())
+                    .padding(16.dp)
             ) {
-                DialogUtils.confirmationDialog(
-                    context = context,
-                    title = context.getString(R.string.update_store),
-                    message = context.getString(R.string.are_you_sure_want_to_update_this_store),
-                    okListener = {
-                        onUpdateListener?.invoke(
-                            StoreDto(
-                                id = storeDto?.id ?: 0,
-                                name = storeName.value,
-                                address = storeAddress.value
-                            )
-                        )
+                OutlinedTextFieldComponent(
+                    value = storeName.value,
+                    label = stringResource(id = R.string.store_name),
+                    onChange = {
+                        storeName.value = it
                     }
                 )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Menu(
-                name = stringResource(id = R.string.product),
-                Icons.Default.ProductionQuantityLimits,
-                callback = {
-                    onProductClicked?.invoke(storeDto?.id ?: 0)
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextFieldComponent(
+                    value = storeAddress.value,
+                    label = stringResource(id = R.string.address),
+                    onChange = {
+                        storeAddress.value = it
+                    }
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                ButtonComponent(
+                    label = stringResource(id = R.string.change)
+                ) {
+                    DialogUtils.confirmationDialog(
+                        context = context,
+                        title = context.getString(R.string.update_store),
+                        message = context.getString(R.string.are_you_sure_want_to_update_this_store),
+                        okListener = {
+                            onUpdateListener?.invoke(
+                                StoreDto(
+                                    id = storeDto?.id ?: 0,
+                                    name = storeName.value,
+                                    address = storeAddress.value
+                                )
+                            )
+                        }
+                    )
                 }
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Menu(name = stringResource(id = R.string.product_category), Icons.Default.Category)
-            Spacer(modifier = Modifier.height(10.dp))
-            Menu(name = stringResource(id = R.string.employee), Icons.Default.PeopleAlt)
+                Spacer(modifier = Modifier.height(20.dp))
+                Menu(
+                    name = stringResource(id = R.string.product),
+                    Icons.Default.ProductionQuantityLimits,
+                    callback = {
+                        onProductClicked?.invoke(storeDto?.id ?: 0)
+                    }
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Menu(name = stringResource(id = R.string.product_category), Icons.Default.Category)
+                Spacer(modifier = Modifier.height(10.dp))
+                Menu(name = stringResource(id = R.string.employee), Icons.Default.PeopleAlt)
+            }
         }
-
-    }
+    )
 
 }
 

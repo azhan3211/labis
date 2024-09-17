@@ -15,4 +15,13 @@ object StringUtils {
         return "${format.format(this).replace(",", ".")}"
     }
 
+    fun String.toNumberFormat(): String {
+        val numberFormat = DecimalFormat("###,###,###")
+        if (isEmpty()) {
+            return "0"
+        }
+        val number = this.replace(".", "").toInt()
+        return numberFormat.format(number).replace(",", ".")
+    }
+
 }

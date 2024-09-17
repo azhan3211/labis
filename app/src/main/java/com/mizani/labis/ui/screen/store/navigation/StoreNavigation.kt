@@ -2,6 +2,7 @@ package com.mizani.labis.ui.screen.store.navigation
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -39,7 +40,7 @@ fun StoreNavigation(
                     backListener?.invoke(true)
                 },
                 navigateToDetailStoreScreen = {
-                    storeViewModel.getSelected(it)
+                    storeViewModel.getSelectedStore(it.id.toInt())
                     navController.navigate(StoreRoute.StoreDetailScreen.route)
                 },
                 onDeleteListener = {
@@ -65,7 +66,8 @@ fun StoreNavigation(
                     navController.popBackStack()
                 },
                 onUpdateListener = {
-                    storeViewModel.saveStore(it)
+                    storeViewModel.updateStore(it)
+                    storeViewModel.getStores()
                     navController.popBackStack()
                     Toast.makeText(
                         context,
@@ -85,6 +87,7 @@ fun StoreNavigation(
                 },
                 onSaveClicked = {
                     storeViewModel.saveStore(it)
+                    storeViewModel.getStores()
                     navController.popBackStack()
                     Toast.makeText(
                         context,

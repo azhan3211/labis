@@ -11,6 +11,8 @@ data class OrderDto(
     val dateTime: Date = Date(),
     val storeId: Long = 0,
     val status: String = "",
+    val totalPrice: Int = 0,
+    val totalProfit: Int = 0,
     val orders: List<OrdersDto> = listOf()
 ): Serializable {
 
@@ -63,4 +65,15 @@ fun OrdersDto.toEntity(): OrdersEntity {
         capital = capital,
         count = count
     )
+}
+
+fun List<OrderDto>.getTotalProductSold(): Int {
+    if (isEmpty()) return 0
+    var total = 0
+    forEach { order ->
+        order.orders.forEach { orders ->
+            total += orders.count
+        }
+    }
+    return total
 }

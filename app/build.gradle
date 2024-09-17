@@ -5,6 +5,12 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def keyProperties = new Properties()
+def keyPropertiesFile = rootProject.file('key.properties')
+if (keyPropertiesFile.exists()) {
+    keyProperties.load(new FileInputStream(keyPropertiesFile))
+}
+
 android {
     namespace 'com.mizani.labis'
     compileSdk 34
@@ -26,6 +32,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "CLIENT_ID", keyProperties['client_id']
+            buildConfigField "String", "CLIENT_SECRET", keyProperties['client_secret']
+            buildConfigField "String", "GRANT_TYPE", keyProperties['grant_type']
+        }
+        debug {
+            applicationIdSuffix '.dev'
+            debuggable true
+            buildConfigField "String", "CLIENT_ID", keyProperties['client_id']
+            buildConfigField "String", "CLIENT_SECRET", keyProperties['client_secret']
+            buildConfigField "String", "GRANT_TYPE", keyProperties['grant_type']
         }
     }
     compileOptions {

@@ -5,9 +5,11 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mizani.labis.domain.model.dto.OrderDto
+import com.mizani.labis.domain.model.dto.Result
 import com.mizani.labis.domain.repository.OrderRepository
 import com.mizani.labis.domain.repository.PreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
@@ -26,26 +28,24 @@ class ReportViewModel @Inject constructor(
         endDate: Date = Date()
     ) {
         viewModelScope.launch {
-            orderRepository.getOrders(
-                preferenceRepository.getSelectedStoreId(),
-                startDate = startDate,
-                endDate = endDate
-            ).collect {
-                _orderPaidSaved.clear()
-                _orderPaidSaved.addAll(it)
+            when (val data = orderRepository.getOrders(preferenceRepository.getSelectedStoreId().toInt(), date = startDate)) {
+                is Result.Success -> {
+                    _orderPaidSaved.clear()
+                    _orderPaidSaved.addAll(data.data)
+                }
+                is Result.Error -> {
+
+                }
             }
         }
     }
 
-    fun getOrderUnpaid(
-        startDate: Date = Date(),
-        endDate: Date = Date()
-    ) {
+    fun getOrderUnpaid() {
         viewModelScope.launch {
             orderRepository.getOrderUnpaid(
                 preferenceRepository.getSelectedStoreId(),
-                startDate = startDate,
-                endDate = endDate
+                startDate = null,
+                endDate = null
             ).collect {
                 _orderPaidSaved.clear()
                 _orderPaidSaved.addAll(it)
@@ -75,6 +75,12 @@ class ReportViewModel @Inject constructor(
                 status = OrderDto.PAID
             )
             orderRepository.paidDebt(updateOrder)
+        }
+    }
+
+    fun deleteOrder(orderDto: OrderDto) {
+        viewModelScope.launch(Dispatchers.IO) {
+            orderRepository.deleteOrder(orderDto.id)
         }
     }
 }

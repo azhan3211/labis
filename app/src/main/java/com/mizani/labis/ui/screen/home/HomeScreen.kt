@@ -33,10 +33,13 @@ import java.util.Date
 @Composable
 fun HomeScreen(
     storeChanged: Boolean = false,
+    reloadCapitalExpenditure: Boolean = false,
+    resetReloadCapitalExpenditure: () -> Unit = {},
     resetStoreChanged: (() -> Unit) = {},
-    navigateToStoreActivity: (() -> Unit)? = null,
+    navigateToStoreActivity: (() -> Unit) = {},
     navigateToOrderActivity: ((List<OrdersDto>) -> Unit)? = null,
-    navigateToReportActivity: (Date, Date, String) -> Unit = { _, _, _ -> }
+    navigateToReportActivity: (Date, Date, String) -> Unit = { _, _, _ -> },
+    navigateToCapitalExpenditure: (Date) -> Unit
 ) {
 
     val label = arrayListOf("Home", "Laporan", "Akun")
@@ -62,6 +65,8 @@ fun HomeScreen(
             ) {
                 HomeNavigation(
                     storeChanged = storeChanged,
+                    reloadCapitalExpenditure = reloadCapitalExpenditure,
+                    resetReloadCapitalExpenditure = resetReloadCapitalExpenditure,
                     navController = navController,
                     resetStoreChanged = resetStoreChanged,
                     navigateToStoreActivity = navigateToStoreActivity,
@@ -70,7 +75,8 @@ fun HomeScreen(
                     },
                     navigateToReportActivity = { startDate, endDate, category ->
                         navigateToReportActivity.invoke(startDate, endDate, category)
-                    }
+                    },
+                    navigateToCapitalExpenditure = navigateToCapitalExpenditure
                 )
             }
         },
@@ -116,5 +122,7 @@ private fun navigateTo(
 @Preview
 @Composable
 private fun Preview() {
-    HomeScreen()
+    HomeScreen(
+        navigateToCapitalExpenditure = {}
+    )
 }

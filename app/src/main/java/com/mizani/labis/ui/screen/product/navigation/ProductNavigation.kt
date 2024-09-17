@@ -1,13 +1,14 @@
 package com.mizani.labis.ui.screen.product.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mizani.labis.R
-import com.mizani.labis.ui.screen.ProductListScreen
+import com.mizani.labis.ui.screen.product.ProductListScreen
 import com.mizani.labis.ui.screen.product.ProductCreateScreen
 import com.mizani.labis.ui.screen.product.ProductEditScreen
 import com.mizani.labis.ui.screen.product.ProductViewModel
@@ -24,12 +25,15 @@ fun ProductNavigation(
     val navController = rememberNavController()
     val productViewModel: ProductViewModel = hiltViewModel()
 
-    productViewModel.getProducts(storeId)
-    productViewModel.getProductCategory(storeId)
+    LaunchedEffect(true) {
+        productViewModel.getProducts(storeId)
+        productViewModel.getProductCategory(storeId)
+    }
 
     NavHost(navController = navController, startDestination = startDestination) {
         composable(route = ProductRoute.ProductListScreen.route) {
             ProductListScreen(
+                error = productViewModel.productError.value,
                 products = productViewModel.products,
                 onAddProductListener = {
                     navController.navigate(ProductRoute.ProductCreateScreen.route)
@@ -44,8 +48,8 @@ fun ProductNavigation(
                         }
                     )
                 },
-                onProductClicked = {
-                    productViewModel.setSelectProduct(it)
+                onProductClicked = { id ->
+                    productViewModel.getProduct(id)
                     navController.navigate(ProductRoute.ProductEditScreen.route)
                 },
                 backListener = backListener
@@ -76,18 +80,11 @@ fun ProductNavigation(
                 productDto = productViewModel.selectedProduct.value,
                 categories = productViewModel.productCategories,
                 onSaveProduct = { product, productCategory ->
-                    if (productCategory.id == 0L) {
-                        productViewModel.saveCategoryAndProduct(
-                            productCategory,
-                            product
-                        )
-                    } else {
-                        productViewModel.saveProduct(product)
-                    }
+                    productViewModel.updateProduct(product, storeId)
                     navController.popBackStack()
                 },
                 onBackListener = {
-                    backListener?.invoke()
+                    navController.popBackStack()
                 }
             )
         }

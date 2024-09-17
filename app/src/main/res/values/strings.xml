@@ -25,6 +25,7 @@
     <string name="update_store">Ubah Toko</string>
     <string name="update_product">Ubah Produk</string>
     <string name="are_you_sure_want_to_delete_this_store">Apakah anda yakin ingin menghapus toko ini?</string>
+    <string name="are_you_sure_want_to_delete_this_capital_expenditure">Apakah anda yakin ingin menghapus pengeluaran modal ini?</string>
     <string name="are_you_sure_want_to_delete_this_product">Apakah anda yakin ingin menghapus produk ini?</string>
     <string name="are_you_sure_want_to_update_this_store">Apakah anda yakin ingin mengubah toko ini?</string>
     <string name="are_you_sure_want_to_update_this_product">Apakah anda yakin ingin mengubah product ini?</string>
@@ -37,6 +38,7 @@
     <string name="product_name">Nama Produk</string>
     <string name="capital">Modal</string>
     <string name="price_to_sell">Harga Jual</string>
+    <string name="price_unit">Harga satuan</string>
     <string name="profit">Keuntungan</string>
     <string name="stock">Jumlah (stok)</string>
     <string name="upload_image">Upload Gambar</string>
@@ -44,6 +46,8 @@
     <string name="no_store_selected">Tidak Ada Toko Yang Dipilih!</string>
     <string name="select_store">Pilih Toko</string>
     <string name="total_price">Total Harga</string>
+    <string name="total_profit">Total Untung</string>
+    <string name="total_debt">Total Hutang</string>
     <string name="orders">Pesanan</string>
     <string name="total_order">Total Pesanan</string>
     <string name="paid">Bayar</string>
@@ -59,4 +63,21 @@
     <string name="product_edit">Ubah Product</string>
     <string name="paid_order_title">Bayar Pesanan</string>
     <string name="paid_order_message">Apakah anda yakin ingin mengubah status bayar di pesanan ini?</string>
+    <string name="delete_order_title">Hapus Pesanan</string>
+    <string name="delete_order_message">Apakah anda yakin ingin menghapus pesanan ini?</string>
+    <string name="register_here">Daftar Disini</string>
+    <string name="havent_have_account">Belum punya akun?</string>
+    <string name="login">Login</string>
+    <string name="date">Tanggal</string>
+    <string name="total_product_sold">Total Produk Terjual</string>
+    <string name="capital_expenditure">Pengeluaran Modal</string>
+    <string name="available_capital">Sisa Modal</string>
+    <string name="debt">Hutang</string>
+    <string name="omzet">Total Penjualan</string>
+    <string name="see_monthly_report">Lihat Catatan Perbulan</string>
+    <string name="total_capital_expenditure">Total Pengeluaran Modal</string>
+    <string name="price">Harga</string>
+    <string name="add">Tambah</string>
+    <string name="create_capital_expenditure">Buat Pengeluaran Modal</string>
+    <string name="delete_capital_expenditure">Hapus Pengeluaran Modal</string>
 </resources>

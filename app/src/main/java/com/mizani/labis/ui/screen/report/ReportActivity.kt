@@ -48,21 +48,22 @@ class ReportActivity : ComponentActivity() {
                     }
 
                     REPORT_UNPAID -> {
-                        reportViewModel.getOrderUnpaid(
-                            Date(startDate),
-                            Date(endDate)
-                        )
+                        reportViewModel.getOrderUnpaid()
                     }
                 }
             }
 
             ReportOrderList(
                 orderDto = reportViewModel.orderPaidSaved,
+                date = Date(startDate),
                 onPaidListener = {
                     reportViewModel.paidDebt(it)
                 },
                 onBackListener = {
                     finish()
+                },
+                onDeleteOrder = {
+                    reportViewModel.deleteOrder(it)
                 }
             )
         }

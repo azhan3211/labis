@@ -28,31 +28,7 @@ object DatabaseModule {
 
     private val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("""
-            CREATE TABLE labis_order_new (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                store_id INTEGER NOT NULL,
-                name TEXT NOT NULL,
-                orders TEXT NOT NULL,
-                status TEXT NOT NULL,
-                date_time INTEGER NOT NULL
-            )
-        """)
 
-            // Copy the data from the old table to the new table with conditional status
-            database.execSQL("""
-            INSERT INTO labis_order_new (id, store_id, name, orders, status, date_time)
-            SELECT id, store_id, name, orders, 
-                   CASE WHEN is_paylater = 1 THEN 'UNPAID' ELSE 'PAID' END AS status, 
-                   date_time
-            FROM labis_order
-        """)
-
-            // Remove the old table
-            database.execSQL("DROP TABLE labis_order")
-
-            // Rename the new table to the old table name
-            database.execSQL("ALTER TABLE labis_order_new RENAME TO labis_order")
         }
     }
 

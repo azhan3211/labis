@@ -18,26 +18,41 @@ import java.util.Date
 @Composable
 fun HomeNavigation(
     storeChanged: Boolean = false,
+    reloadCapitalExpenditure: Boolean = false,
     navController: NavHostController = rememberNavController(),
     resetStoreChanged: () -> Unit = {},
-    navigateToStoreActivity: (() -> Unit)? = null,
+    resetReloadCapitalExpenditure: () -> Unit = {},
+    navigateToStoreActivity: (() -> Unit) = {},
     navigateToOrderActivity: ((List<OrdersDto>) -> Unit)? = null,
-    navigateToReportActivity: (Date, Date, String) -> Unit = { _, _, _ ->}
+    navigateToReportActivity: (Date, Date, String) -> Unit = { _, _, _ ->},
+    navigateToCapitalExpenditure: (Date) -> Unit
 ) {
 
     val homeViewModel: HomeViewModel = hiltViewModel()
-    homeViewModel.getProducts()
-    homeViewModel.getProductCategories()
-    homeViewModel.getSelectedStore()
-    homeViewModel.getOrder()
-    homeViewModel.getOrderUnpaid()
+
+    LaunchedEffect(true) {
+        homeViewModel.getProducts()
+        homeViewModel.getProductCategories()
+        homeViewModel.getSelectedStore()
+        homeViewModel.getOrder()
+        homeViewModel.getOrderUnpaid(null, null)
+        homeViewModel.getStatistic()
+    }
 
     LaunchedEffect(storeChanged) {
         if (storeChanged) {
             homeViewModel.getProducts()
             homeViewModel.getProductCategories()
             homeViewModel.getSelectedStore()
+            homeViewModel.getStatistic()
             resetStoreChanged.invoke()
+        }
+    }
+
+    LaunchedEffect(reloadCapitalExpenditure) {
+        if (reloadCapitalExpenditure) {
+            homeViewModel.getStatistic()
+            resetReloadCapitalExpenditure.invoke()
         }
     }
 
@@ -49,6 +64,7 @@ fun HomeNavigation(
                 products = homeViewModel.products,
                 totalPrice = homeViewModel.totalPrice.value,
                 onStoreClicked = navigateToStoreActivity,
+                searchValue = homeViewModel.searchValue.value,
                 onOrderClicked = {
                     navigateToOrderActivity?.invoke(homeViewModel.orders)
                 },
@@ -57,13 +73,18 @@ fun HomeNavigation(
                 },
                 onDec = {
                     homeViewModel.onOrderDec(it)
+                },
+                onSearch = {
+                    homeViewModel.onSearch(it)
                 }
             )
         }
         composable(route = HomeRoute.ReportScreen.route) {
             ReportScreen(
-                totalSalePaid = homeViewModel.paidSale.value,
+                totalSalePaid = homeViewModel.orderStatistic.value.getOmzet(),
                 totalSaleUnpaid = homeViewModel.unpaidSale.value,
+                capital = homeViewModel.orderStatistic.value.availableCapital,
+                profit = homeViewModel.orderStatistic.value.profit,
                 onReportClicked = { category ->
                     navigateToReportActivity.invoke(
                         homeViewModel.selectedStartDate.value,
@@ -75,6 +96,10 @@ fun HomeNavigation(
                     homeViewModel.setSelectedDate(startDate, endDate)
                     homeViewModel.getOrder(startDate, endDate)
                     homeViewModel.getOrderUnpaid(startDate, endDate)
+                    homeViewModel.getStatistic()
+                },
+                onAvailableCapitalClicked = {
+                    navigateToCapitalExpenditure.invoke(homeViewModel.selectedStartDate.value)
                 }
             )
         }

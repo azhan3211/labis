@@ -19,11 +19,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
 import com.mizani.labis.R
 import com.mizani.labis.ui.screen.auth.navigation.AuthNavigationRoute
-import com.mizani.labis.ui.component.TextFieldComponent
+import com.mizani.labis.ui.component.textfield.TextFieldComponent
 import com.mizani.labis.ui.component.TextFieldPasswordComponent
 
 @OptIn(ExperimentalComposeUiApi::class)

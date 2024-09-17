@@ -5,12 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mizani.labis.domain.model.dto.OrderDto
+import com.mizani.labis.domain.model.dto.OrderStatisticDto
 import com.mizani.labis.domain.model.dto.OrdersDto
+import com.mizani.labis.domain.model.dto.Result
 import com.mizani.labis.domain.repository.OrderRepository
 import com.mizani.labis.domain.repository.PreferenceRepository
 import com.mizani.labis.utils.LabisDateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,6 +37,12 @@ class OrderViewModel @Inject constructor(
 
     val isSaved: State<Boolean> get() = _isSaved
     private val _isSaved = mutableStateOf(false)
+
+    val orderSuccessMessage: State<String> get() = _orderSuccessMessage
+    private val _orderSuccessMessage = mutableStateOf("")
+
+    val orderErrorMessage: State<String> get() = _orderErrorMessage
+    private val _orderErrorMessage = mutableStateOf("")
 
     fun setOrders(orders: List<OrdersDto>) {
         this._orders.clear()
@@ -103,9 +113,16 @@ class OrderViewModel @Inject constructor(
             orders = _orders
         )
         viewModelScope.launch {
-            orderRepository.saveOrder(
-                newOrder
-            )
+            _orderSuccessMessage.value = ""
+            _orderErrorMessage.value = ""
+            when (val data = orderRepository.saveOrder(newOrder)) {
+                is Result.Success -> {
+                    _orderSuccessMessage.value = data.data
+                }
+                is Result.Error -> {
+                    _orderErrorMessage.value = data.error.message
+                }
+            }
             _isSaved.value = true
         }
     }

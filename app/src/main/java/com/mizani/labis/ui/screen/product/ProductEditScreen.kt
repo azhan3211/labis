@@ -53,15 +53,24 @@ fun ProductEditScreen(
     val stock = rememberSaveable { mutableStateOf(productDto.stock.toString()) }
     val newCategory = rememberSaveable { mutableStateOf("") }
     val isAddCategory = rememberSaveable { mutableStateOf(false) }
-    var selectedCategory = categories.find { it.id == productDto.categoryId } ?: ProductCategoryDto()
+    var selectedCategory = ProductCategoryDto()
 
     val selectedCategoryIndex = rememberSaveable { mutableStateOf(0) }
 
-    LaunchedEffect(true) {
-        categories.forEachIndexed() { index, item ->
-            if (item.id == productDto.categoryId) {
-                selectedCategoryIndex.value = index.inc()
+    LaunchedEffect(productDto) {
+        if (productDto.id.toInt() != 0) {
+            productName.value = productDto.name
+            price.value = productDto.capital.toString()
+            priceSell.value = productDto.priceToSell.toString()
+            benefit.value = getBenefit(priceSell.value, price.value)
+            stock.value = productDto.stock.toString()
+            categories.forEachIndexed { index, item ->
+                if (item.id == productDto.categoryId) {
+                    selectedCategoryIndex.value = index.inc()
+                }
             }
+            selectedCategory = categories.find { it.id == productDto.categoryId } ?: ProductCategoryDto()
+
         }
     }
 
@@ -196,6 +205,10 @@ fun ProductEditScreen(
                         label = stringResource(id = R.string.save),
                         modifier = Modifier.align(Alignment.Center),
                         callback = {
+                            selectedCategory = categories[selectedCategoryIndex.value - 1]
+                            if (selectedCategory.id == 0L && selectedCategory.name.isEmpty()) {
+                                return@ButtonComponent
+                            }
                             val product = ProductDto(
                                 id = productDto.id,
                                 name = productName.value,
@@ -204,7 +217,8 @@ fun ProductEditScreen(
                                 stock = stock.value.replace(".", "").toInt(),
                                 storeId = productDto.storeId,
                                 description = "",
-                                categoryId = selectedCategory.id
+                                categoryId = selectedCategory.id,
+                                categoryName = selectedCategory.name
                             )
                             onSaveProduct?.invoke(
                                 product,

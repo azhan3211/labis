@@ -8,6 +8,7 @@ class LabisDateUtils {
     companion object {
 
         private val dateFormat = SimpleDateFormat("dd MMM yyyy")
+        const val BACK_END_FORMAT = "yyyy-MM-dd"
 
         private fun getCalendar(date: Date = Date()): Calendar {
             val instance = Calendar.getInstance()
@@ -57,6 +58,10 @@ class LabisDateUtils {
             pattern: String = "dd MMM yyyy"
         ): String {
             return SimpleDateFormat(pattern).format(Date(this))
+        }
+
+        fun String.toDate(pattern: String): Date {
+            return SimpleDateFormat(pattern).parse(this)
         }
     }
 }

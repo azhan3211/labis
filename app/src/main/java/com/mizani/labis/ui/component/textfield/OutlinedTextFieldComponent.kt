@@ -10,6 +10,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.mizani.labis.utils.StringUtils.toNumberFormat
 import java.text.DecimalFormat
 
 @Composable
@@ -28,7 +29,9 @@ fun OutlinedTextFieldComponent(
         value = value,
         onValueChange = {
             if (isNumber) {
-                if (it.length <= 11) {
+                if (it.isEmpty()) {
+                    onChange.invoke("0")
+                } else if (it.length <= 11) {
                     onChange.invoke(it.toNumberFormat())
                 }
             } else {
@@ -48,13 +51,4 @@ fun OutlinedTextFieldComponent(
         maxLines = 1,
         enabled = isEnabled
     )
-}
-
-private fun String.toNumberFormat(): String {
-    val numberFormat = DecimalFormat("###,###,###")
-    if (isEmpty()) {
-        return "0"
-    }
-    val number = this.replace(".", "").toInt()
-    return numberFormat.format(number).replace(",", ".")
 }

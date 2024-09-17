@@ -10,9 +10,12 @@ data class ProductDto(
     val stock: Int = 0,
     val description: String = "",
     val priceToSell: Int = 0,
-    val categoryId: Long = 0
+    val categoryId: Long = 0,
+    val categoryName: String = ""
 //    val image: List<Byte>
-)
+) {
+    fun profit(): Int = priceToSell - capital
+}
 
 fun ProductDto.toProductEntity(): ProductEntity {
     return ProductEntity(
@@ -36,4 +39,29 @@ fun ProductDto.toOrderDto(): OrdersDto {
         capital = capital,
         count = 0
     )
+}
+
+fun ProductDto.toUpdateRequest(currentProductDto: ProductDto): HashMap<String, String> {
+    val hashMap = hashMapOf<String, String>()
+    hashMap["id"] = id.toString()
+    hashMap["store_id"] = storeId.toString()
+    if (name != currentProductDto.name) {
+        hashMap["name"] = name
+    }
+    if (categoryId.toInt() != currentProductDto.categoryId.toInt()) {
+        hashMap["type_id"] = categoryId.toString()
+    }
+    if (categoryName != currentProductDto.categoryName) {
+        hashMap["type_name"] = categoryName
+    }
+    if (priceToSell != currentProductDto.priceToSell) {
+        hashMap["price"] = priceToSell.toString()
+    }
+    if (profit() != currentProductDto.profit()) {
+        hashMap["profit"] = profit().toString()
+    }
+    if (stock != currentProductDto.stock) {
+        hashMap["quantity"] = stock.toString()
+    }
+    return hashMap
 }

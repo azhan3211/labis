@@ -26,7 +26,6 @@ import androidx.compose.material.icons.filled.Store
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -47,17 +46,21 @@ import com.mizani.labis.ui.component.ChipItemComponent
 import com.mizani.labis.ui.component.SearchComponent
 import com.mizani.labis.ui.component.menu.MenuItemComponent
 import com.mizani.labis.ui.component.order.OrderTotalPriceComponent
+import com.mizani.labis.ui.component.product.EmptyProductComponent
+import kotlinx.coroutines.delay
 
 @Composable
 fun MenuScreen(
     selectedStore: StoreDto = StoreDto(),
+    searchValue: String = "",
     categories: List<ProductCategoryDto> = listOf(),
     products: List<ProductDto> = listOf(),
     totalPrice: Int = 0,
-    onStoreClicked: (() -> Unit)? = null,
+    onStoreClicked: (() -> Unit) = {},
     onInc: (ProductDto) -> Unit = {},
     onDec: (ProductDto) -> Unit = {},
-    onOrderClicked: () -> Unit = {}
+    onOrderClicked: () -> Unit = {},
+    onSearch: (String) -> Unit = {}
 ) {
 
     val searchKeyword = rememberSaveable { mutableStateOf("") }
@@ -74,6 +77,16 @@ fun MenuScreen(
 
     LaunchedEffect(totalPrice) {
         isAnimated = totalPrice > 0
+    }
+
+    LaunchedEffect(searchKeyword.value) {
+        if (searchKeyword.value.length > 2) {
+            delay(500)
+            onSearch.invoke(searchKeyword.value)
+        } else {
+            delay(500)
+            onSearch.invoke("")
+        }
     }
 
     Surface(
@@ -107,11 +120,10 @@ fun MenuScreen(
                 Content(
                     storeDto = selectedStore,
                     products = products,
-                    searchKeyword = searchKeyword.value,
+                    searchValue = searchValue,
                     onInc = onInc,
                     onDec = onDec,
                     onStoreClicked = onStoreClicked,
-
                 )
             }
             Box(
@@ -134,40 +146,49 @@ fun MenuScreen(
 private fun Content(
     storeDto: StoreDto,
     products: List<ProductDto> = listOf(),
-    searchKeyword: String = "",
+    searchValue: String = "",
     onInc: (ProductDto) -> Unit,
     onDec: (ProductDto) -> Unit,
-    onStoreClicked: (() -> Unit)? = null
+    onStoreClicked: (() -> Unit) = {}
 ) {
     if (storeDto.id == 0L) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .fillMaxHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                modifier = Modifier.width(180.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 18.sp,
-                text = stringResource(id = R.string.no_store_selected)
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            ButtonComponent(
-                modifier = Modifier.width(180.dp),
-                label = stringResource(id = R.string.select_store),
-                callback = {
-                    onStoreClicked?.invoke()
-                }
-            )
-        }
+        SelectStoreSection(onStoreClicked = onStoreClicked)
+    } else if (storeDto.id != 0L && products.isEmpty()) {
+        EmptyProductComponent()
     } else {
         MenuListSection(
             products = products,
             onInc = onInc,
             onDec = onDec,
-            searchKeyword = searchKeyword
+            searchValue = searchValue
+        )
+    }
+}
+
+@Composable
+private fun SelectStoreSection(
+    onStoreClicked: (() -> Unit) = {}
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            modifier = Modifier.width(180.dp),
+            textAlign = TextAlign.Center,
+            fontSize = 18.sp,
+            text = stringResource(id = R.string.no_store_selected)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        ButtonComponent(
+            modifier = Modifier.width(180.dp),
+            label = stringResource(id = R.string.select_store),
+            callback = {
+                onStoreClicked?.invoke()
+            }
         )
     }
 }
@@ -175,7 +196,7 @@ private fun Content(
 @Composable
 private fun MenuListSection(
     products: List<ProductDto> = listOf(),
-    searchKeyword: String = "",
+    searchValue: String = "",
     onInc: (ProductDto) -> Unit = {},
     onDec: (ProductDto) -> Unit = {},
 ) {
@@ -188,7 +209,7 @@ private fun MenuListSection(
                 .weight(1f)
         ) {
             itemsIndexed(products) { index, item ->
-                if (item.name.lowercase().contains(searchKeyword.lowercase()) || item.name.isEmpty()) {
+                if (item.name.lowercase().contains(searchValue.lowercase()) || searchValue.isEmpty()) {
                     if (index == 0) {
                         Spacer(modifier = Modifier.height(16.dp))
                     }

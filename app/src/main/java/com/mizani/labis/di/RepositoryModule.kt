@@ -1,10 +1,14 @@
 package com.mizani.labis.di
 
+import com.mizani.labis.data.repository.AuthRepositoryImpl
+import com.mizani.labis.data.repository.CapitalExpenditureRepositoryImpl
 import com.mizani.labis.data.repository.OrderRepositoryImpl
 import com.mizani.labis.data.repository.PreferenceRepositoryImpl
 import com.mizani.labis.data.repository.ProductCategoryRepositoryImpl
 import com.mizani.labis.data.repository.ProductRepositoryImpl
 import com.mizani.labis.data.repository.StoreRepositoryImpl
+import com.mizani.labis.domain.repository.AuthRepository
+import com.mizani.labis.domain.repository.CapitalExpenditureRepository
 import com.mizani.labis.domain.repository.OrderRepository
 import com.mizani.labis.domain.repository.PreferenceRepository
 import com.mizani.labis.domain.repository.ProductCategoryRepository
@@ -43,5 +47,15 @@ interface RepositoryModule {
     fun provideProductCategoryRepository(
         productCategoryRepositoryImpl: ProductCategoryRepositoryImpl
     ): ProductCategoryRepository
+
+    @Binds
+    fun provideAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
+
+    @Binds
+    fun provideCapitalExpenditureRepository(
+        capitalExpenditureRepositoryImpl: CapitalExpenditureRepositoryImpl
+    ): CapitalExpenditureRepository
 
 }

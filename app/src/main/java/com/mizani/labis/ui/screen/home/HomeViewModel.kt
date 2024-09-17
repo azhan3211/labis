@@ -8,9 +8,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mizani.labis.domain.model.dto.OrderDto
+import com.mizani.labis.domain.model.dto.OrderStatisticDto
 import com.mizani.labis.domain.model.dto.OrdersDto
 import com.mizani.labis.domain.model.dto.ProductCategoryDto
 import com.mizani.labis.domain.model.dto.ProductDto
+import com.mizani.labis.domain.model.dto.Result
 import com.mizani.labis.domain.model.dto.StoreDto
 import com.mizani.labis.domain.model.dto.toOrderDto
 import com.mizani.labis.domain.repository.OrderRepository
@@ -18,7 +20,6 @@ import com.mizani.labis.domain.repository.PreferenceRepository
 import com.mizani.labis.domain.repository.ProductCategoryRepository
 import com.mizani.labis.domain.repository.ProductRepository
 import com.mizani.labis.domain.repository.StoreRepository
-import com.mizani.labis.utils.LabisDateUtils.Companion.toReadableView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -65,20 +66,46 @@ class HomeViewModel @Inject constructor(
     val selectedEndDate: State<Date> get() = _selectedEndDate
     private val _selectedEndDate = mutableStateOf(Date())
 
+    val searchValue: State<String> get() = _searchValue
+    private val _searchValue = mutableStateOf("")
+
+    val categoryError: State<String> get() = _categoryError
+    private val _categoryError = mutableStateOf("")
+
+    val productError: State<String> get() = _productError
+    private val _productError = mutableStateOf("")
+
+    val orderStatistic: State<OrderStatisticDto> get() = _orderStatistic
+    private val _orderStatistic = mutableStateOf(OrderStatisticDto())
+
     fun getProducts() {
         viewModelScope.launch {
-            productRepository.getAll(getSelectedStoreId()).collect {
-                _products.clear()
-                _products.addAll(it)
+            if (getSelectedStoreId().toInt() == 0) return@launch
+            _productError.value = ""
+            when (val data = productRepository.getAll(getSelectedStoreId().toInt())) {
+                is Result.Success -> {
+                    _products.clear()
+                    _products.addAll(data.data)
+                }
+                is Result.Error -> {
+                    _productError.value = data.error.message
+                }
             }
         }
     }
 
     fun getProductCategories() {
         viewModelScope.launch {
-            productCategoryRepository.getCategories(getSelectedStoreId()).collect {
-                _categories.clear()
-                _categories.addAll(it)
+            _categoryError.value = ""
+            when (val data = productCategoryRepository.getCategories(getSelectedStoreId().toInt())) {
+                is Result.Success -> {
+                    _categories.clear()
+                    _categories.addAll(data.data)
+                }
+
+                is Result.Error -> {
+                    _categoryError.value = data.error.message
+                }
             }
         }
     }
@@ -87,7 +114,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val selectedStoreId = getSelectedStoreId()
             if (selectedStoreId != 0L) {
-                _selectedStore.value = storeRepository.getStore(selectedStoreId)
+                _selectedStore.value = storeRepository.getStore(selectedStoreId.toInt())
             }
         }
     }
@@ -132,6 +159,10 @@ class HomeViewModel @Inject constructor(
         calculateTotalPrice()
     }
 
+    fun onSearch(searchValue: String) {
+        _searchValue.value = searchValue
+    }
+
     private fun calculateTotalPrice() {
         var totalPriceTemp = 0
         _orders.forEach {
@@ -158,8 +189,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getOrderUnpaid(
-        startDate: Date = Date(),
-        endDate: Date = Date()
+        startDate: Date?,
+        endDate: Date?
     ) {
         viewModelScope.launch {
             orderRepository.getOrderUnpaid(
@@ -205,6 +236,21 @@ class HomeViewModel @Inject constructor(
     fun setSelectedDate(startDate: Date, endDate: Date) {
         _selectedStartDate.value = startDate
         _selectedEndDate.value = endDate
+    }
+
+    fun getStatistic() {
+        viewModelScope.launch {
+            val storeId = getSelectedStoreId().toInt()
+            if (storeId == 0) return@launch
+            when (val data = orderRepository.getOrderStatistic(storeId, _selectedStartDate.value)) {
+                is Result.Success -> {
+                    _orderStatistic.value = data.data
+                }
+                is Result.Error -> {
+
+                }
+            }
+        }
     }
 
 }

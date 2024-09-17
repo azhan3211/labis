@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -73,7 +74,7 @@ fun OrderComponent(
                         )
                         Row {
                             Text(
-                                text = "${(orderDto.price).toCurrency()} X ${orderDto.count}",
+                                text = "${orderDto.price.toCurrency()} X ${orderDto.count}",
                                 fontSize = 14.sp,
                                 color = Color("#47A992".toColorInt()),
                                 fontWeight = FontWeight.W600
@@ -84,7 +85,7 @@ fun OrderComponent(
                         horizontalAlignment = Alignment.End
                     ) {
                         Text(
-                            text = "${(orderDto.count * orderDto.price).toCurrency()}",
+                            text = (orderDto.count * orderDto.price).toCurrency(),
                             fontSize = 18.sp,
                             color = MaterialTheme.colors.primary,
                             fontWeight = FontWeight.W600
@@ -134,14 +135,14 @@ private fun getStatus(status: String) = when (status) {
 
 @Preview
 @Composable
-fun OrderComponentPreview() {
+private fun OrderComponentPreview() {
     OrderComponent(
         orderDto = OrdersDto(
             id = 0,
             name = "Product 1",
             capital = 1000,
             count = 0,
-            price = 0
+            price = 1000
         )
     ) {}
 }
